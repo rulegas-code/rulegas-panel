@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% include 'head_part.html' %}
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    {% include 'sidebar_part.html' %}
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'topbar_part.html' %}
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Premios</h1>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-6 mx-auto">
+
+                        <!-- Default Card Example -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                Registrar premio
+                            </div>
+                            <div class="card-body">
+
+                                {% if award %}
+                                    <div class="alert alert-success" role="alert">
+                                        Se registró el premio {{ award }}
+                                    </div>
+                                {% endif %}
+
+                                <form action="/awards" method="post" id="form-awards">
+
+                                    {% csrf_token %}
+
+                                    <!-- Part 1 -->
+                                    <div class="form-group row">
+                                        <div class="input-group col-6 mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="company-id">Compañía</label>
+                                            </div>
+                                            <select class="custom-select" id="companyId">
+                                                <option selected>Elige...</option>
+                                                {% for company in companies %}
+                                                    <option value="{{ company.id }}">{{ company.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="totalbag" class="col-2 col-form-label">Bolsa total</label>
+                                        <div class="col-4">
+                                            <div class="input-group mb-2">
+                                                <input type="text" class="form-control" id="totalbag">
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">Lts</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="price" class="col-2 col-form-label">Precio</label>
+                                        <div class="col-4">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="price">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="bag" class="col-2 col-form-label">Bolsa</label>
+                                        <div class="col-4">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="bag">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                    <h3>Premios</h3>
+
+                                    <div class="row">
+                                        <div class="col-2"></div>
+                                        <div class="col-3"><label class="col-form-label">Premio</label></div>
+                                        <div class="col-2"><label class="col-form-label">Lts</label></div>
+                                        <div class="col-2"><label class="col-form-label">Premios</label></div>
+                                        <div class="col-2"><label class="col-form-label">Importe</label></div>
+                                        <div class="col-1"><label class="col-form-label">x día</label></div>
+                                    </div>
+
+                                    <!-- Part 2 -->
+                                    <div id="section-awards">
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <button type="button" class="btn btn-success" id="add-row">Agregar fila
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        {% include 'footer_part.html' %}
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+{% include 'modals_and_scripts_part.html' %}
+
+<!-- Page level custom scripts -->
+<script src="/static/js/add_awards.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Rulegas</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item {% if filename == 'index' %}active{% endif %}">
+        <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Nav Item - Users -->
+    <li class="nav-item {% if 'users' in request.path %}active{% endif %}">
+        <a class="nav-link " href="users">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Users</span></a>
+    </li>
+
+    <!-- Nav Item - Fuel Stations -->
+    <li class="nav-item {% if 'fuelstations' in request.path %}active{% endif %}">
+        <a class="nav-link " href="fuelstations">
+            <i class="fas fa-fw fa-gas-pump"></i>
+            <span>Estaciones</span></a>
+    </li>
+
+    <!-- Nav Item - Fuel Stations -->
+    <li class="nav-item {% if 'sells' in request.path %}active{% endif %}">
+        <a class="nav-link " href="sells">
+            <i class="fas fa-fw fa-chart-line"></i>
+            <span>Ventas</span></a>
+    </li>
+
+    <!-- Nav Item - Prizes -->
+    <li class="nav-item {% if 'awards' in request.path %}active{% endif %}">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseAwards"
+           aria-expanded="{% if 'awards' in request.path %}true{% else %}false{% endif %}"
+           aria-controls="collapseAwards">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Premios</span>
+        </a>
+        <div id="collapseAwards" class="collapse {% if 'awards' in request.path %}show{% endif %}"
+             aria-labelledby="headingAwards" data-parent="#accordionSidebar"
+             style="">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {% if 'awards/add' in request.path %}active{% endif %}" href="/awards/add"><span
+                        class="fas fa-fw fa-plus"> </span>Agregar</a>
+                <a class="collapse-item {% if 'awards/list' in request.path %}active{% endif %}" href="/awards/list"><span
+                        class="fas fa-fw fa-coins"> </span>Premios</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->
