@@ -33,19 +33,19 @@ from rulegas import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', views.index),
-    path('users', views.users),
-    path('fuelstations', views.fuelstations),
-    path('sells', views.sells),
-    path('awards/add', views.add_awards),
-    path('awards/list', views.list_awards, name='AwardsList'),
-    path('awards/edit', views.edit_awards),
+    path('', views.index, name='index'),
+    path('users', views.users, name='users'),
+    path('fuelstations', views.fuelstations, name='fuelstations'),
+    path('sells', views.sells, name='sells'),
+    path('awards/add', views.add_awards, name='awards.add'),
+    path('awards/list', views.list_awards, name='awards.list'),
+    path('awards/edit', views.edit_awards, name='awards.edit'),
 
     path('<filename>.html', views.html),
 
     # path('api/', include(router.urls)),
-    path('api/sellsdata', views.api_sells),
+    path('api/sellsdata', views.api_sells, name='api.sells.data'),
 
-    path('api/awards/<str:award_id>', views.api_award_id),
-    path('api/awards', views.api_award_save),
+    path('api/awards/<str:award_id>', views.api_award_id, name='api.awards.id'),
+    path('api/awards', views.api_award_save, name='api.awards.save'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
