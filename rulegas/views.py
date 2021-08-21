@@ -1,5 +1,6 @@
 import datetime
 import random
+import uuid
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -19,8 +20,10 @@ from rulegas.serializers import FuelCompanyAwardSerializer
 def index(request):
     # if request.user.is_anonymous:
     #     return redirect('/login.html')
-    return html(request, 'index')
+    # return html(request, 'index')
 
+    context = {'users': User.objects.all()}
+    return render(request, 'sells.html', context=context)
 
 def users(request):
     context = {'users': User.objects.all()}
@@ -31,11 +34,6 @@ def fuelstations(request):
     stations = FuelStation.objects.all()
     context = {'fuelstations': stations}
     return render(request, 'fuelstation.html', context=context)
-
-
-def sells(request):
-    context = {'users': User.objects.all()}
-    return render(request, 'sells.html', context=context)
 
 
 def api_sells(request):
@@ -61,7 +59,13 @@ def api_sells(request):
 
 def add_awards(request):
     companies = FuelCompany.objects.all()
-    context = {'companies': companies}
+    awards = 5
+
+    context = {
+        'companies': companies,
+        'awardCount': awards,
+        'awardRange': range(awards)
+    }
     return render(request, 'add_awards.html', context=context)
 
 
@@ -74,7 +78,6 @@ def list_awards(request):
 def edit_awards(request):
     award = FuelCompanyAward.objects.get(pk=request.POST['awardId'])
 
-    award.probability = request.POST['awardProbability']
     award.name = request.POST['awardName']
     award.is_active = 1 if request.POST['awardName'] else 0
 
@@ -85,7 +88,7 @@ def edit_awards(request):
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
-def api_award_id(request, award_id):
+def api_award_id(request, award_id=''):
     print(award_id)
 
     award = FuelCompanyAward.objects.get(pk=award_id)
@@ -99,19 +102,22 @@ def api_award_id(request, award_id):
 def api_award_save(request):
     print(request.data)
 
+    i = 0
     for award in request.data['awards']:
         a = FuelCompanyAward()
-        a.id = award['name'].replace(' ', '')
+        a.id = uuid.uuid1()
         a.fuel_company_id = request.data['companyId']
         a.name = award['name']
-        a.total_awards = int(award['count'])
+        a.total_awards = int(award['total'])
         a.awards_per_day = int(award['perDay'])
-        a.probability = float(award['probability'])
-        a.roulette_position = 3
+        a.probability = 0.125
+        a.roulette_position = i
         a.is_active = 1
         a.save()
 
-    return JsonResponse({'success': True})
+        i = i + 1
+
+    return JsonResponse({'status': True})
 
 
 def html(request, filename):

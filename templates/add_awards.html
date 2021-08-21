@@ -9,6 +9,8 @@
 
 <body id="page-top">
 
+<input type="hidden" value="{{ awardCount }}" id="awardCount">
+
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -33,7 +35,7 @@
 
                 <div class="row">
 
-                    <div class="col-6 mx-auto">
+                    <div class="col-12 mx-auto">
 
                         <!-- Default Card Example -->
                         <div class="card mb-4">
@@ -48,13 +50,13 @@
                                     </div>
                                 {% endif %}
 
-                                <form action="/awards" method="post" id="form-awards">
+                                <form action="{% url 'api.awards.save' %}" method="post" id="form-awards">
 
                                     {% csrf_token %}
 
                                     <!-- Part 1 -->
                                     <div class="form-group row">
-                                        <div class="input-group col-6 mb-3">
+                                        <div class="input-group col-12 mb-3">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="company-id">Compañía</label>
                                             </div>
@@ -68,8 +70,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="totalbag" class="col-2 col-form-label">Bolsa total</label>
-                                        <div class="col-4">
+                                        <label for="totalbag" class="col-xs-12 col-md-2 col-form-label">Bolsa total</label>
+                                        <div class="col-xs-12 col-md-10">
                                             <div class="input-group mb-2">
                                                 <input type="text" class="form-control" id="totalbag">
                                                 <div class="input-group-append">
@@ -80,8 +82,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="price" class="col-2 col-form-label">Precio</label>
-                                        <div class="col-4">
+                                        <label for="price" class="col-xs-12 col-md-2 col-form-label">Precio</label>
+                                        <div class="col-xs-12 col-md-10">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">$</div>
@@ -92,36 +94,141 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="bag" class="col-2 col-form-label">Bolsa</label>
-                                        <div class="col-4">
+                                        <label for="bag" class="col-xs-12 col-md-2 col-form-label">Bolsa</label>
+                                        <div class="col-xs-12 col-md-10">
                                             <div class="input-group mb-2">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">$</div>
                                                 </div>
-                                                <input type="text" class="form-control" id="bag">
+                                                <input type="text" class="form-control" id="bag" disabled>
                                             </div>
                                         </div>
                                     </div>
 
                                     <hr/>
+
                                     <h3>Premios</h3>
 
-                                    <div class="row">
-                                        <div class="col-2"></div>
-                                        <div class="col-3"><label class="col-form-label">Premio</label></div>
-                                        <div class="col-2"><label class="col-form-label">Lts</label></div>
-                                        <div class="col-2"><label class="col-form-label">Premios</label></div>
-                                        <div class="col-2"><label class="col-form-label">Importe</label></div>
-                                        <div class="col-1"><label class="col-form-label">x día</label></div>
-                                    </div>
+                                    {% for i in awardRange %}
+                                        <div class="card">
+                                            <h5 class="card-header">Premio</h5>
+
+                                            <div class="card-body">
+
+                                                <!-- Award percentage -->
+                                                <div class="form-group row">
+                                                    <label class="sr-only" for="awardPercent{{ i }}">%</label>
+                                                    <div class="col-xs-12 col-md-12">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control award-info" data-award="{{ i }}" id="awardPercent{{ i }}">
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Award Name -->
+                                                <div class="form-group row">
+                                                    <label class="col-xs-12 col-md-2 col-form-label" for="awardName{{ i }}">Nombre</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control" id="awardName{{ i }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Per Lts or per Cash -->
+                                                <div class="form-group row">
+                                                    <!-- Per Lts -->
+                                                    <div class="custom-control custom-radio col-xs-12 col-md-2">
+                                                        <input type="radio" name="awardType{{ i }}" id="awardTypeLts{{ i }}" class="custom-control-input awardType" data-award="{{ i }}" checked>
+                                                        <label class="custom-control-label" for="awardTypeLts{{ i }}">x Lts</label>
+                                                    </div>
+                                                    <label class="sr-only" for="ltsPerAward{{ i }}">Lts</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control award-info" id="ltsPerAward{{ i }}" data-award="{{ i }}" disabled>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">Lts</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Per Cash -->
+                                                    <div class="custom-control custom-radio col-xs-12 col-md-2">
+                                                        <input type="radio" name="awardType{{ i }}" id="awardTypeCash{{ i }}" class="custom-control-input awardType" data-award="{{ i }}">
+                                                        <label class="custom-control-label" for="awardTypeCash{{ i }}">x Dinero</label>
+                                                    </div>
+                                                    <label class="sr-only" for="cashPerAward{{ i }}">$</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="text" class="form-control award-info" id="cashPerAward{{ i }}" data-award="{{ i }}" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Total Lts -->
+                                                <div class="form-group row">
+                                                    <label class="col-xs-12 col-md-2 col-form-label" for="awardLtsTotal{{ i }}">Lts</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control" id="awardLtsTotal{{ i }}" disabled>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">Lts</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Total Cash -->
+                                                <div class="form-group row">
+                                                    <label class="col-xs-12 col-md-2 col-form-label" for="awardCashTotal{{ i }}">Importe total</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="text" class="form-control" id="awardCashTotal{{ i }}" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Total Awards -->
+                                                <div class="form-group row">
+                                                    <label class="col-xs-12 col-md-2 col-form-label" for="awardTotal{{ i }}">Premios Total</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control" id="awardTotal{{ i }}" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Awards per Day -->
+                                                <div class="form-group row">
+                                                    <label class="col-xs-12 col-md-2 col-form-label" for="awardPerDay{{ i }}">x día</label>
+                                                    <div class="col-xs-12 col-md-10">
+                                                        <div class="input-group mb-2">
+                                                            <input type="text" class="form-control" id="awardPerDay{{ i }}" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                    <hr/>
+
+                                    <div id="alert-submit"></div>
 
                                     <!-- Part 2 -->
-                                    <div id="section-awards">
-                                    </div>
                                     <div class="form-group row">
                                         <div class="col-12">
-                                            <button type="button" class="btn btn-success" id="add-row">Agregar fila
-                                            </button>
                                             <button type="submit" class="btn btn-primary">Guardar</button>
                                         </div>
                                     </div>
