@@ -34,18 +34,24 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', views.index, name='index'),
+
     path('users', views.users, name='users'),
+
     path('fuelstations', views.fuelstations, name='fuelstations'),
+
     path('awards/add', views.add_awards, name='awards.add'),
+    path('awards/add_ind', views.add_awards_ind, name='awards.add_ind'),
     path('awards/list', views.list_awards, name='awards.list'),
     path('awards/edit', views.edit_awards, name='awards.edit'),
 
-    path('<filename>.html', views.html),
-
+    # API ROUTES
     # path('api/', include(router.urls)),
     path('api/sellsdata', views.api_sells, name='api.sells.data'),
 
     path('api/awards/', views.api_award_id, name='api.awards.id', kwargs={'slug': ''}),
     path('api/awards/<str:award_id>', views.api_award_id, name='api.awards.id'),
     path('api/awards', views.api_award_save, name='api.awards.save'),
+    path('api/awards_ind', views.api_award_ind_save, name='api.awards.save_ind'),
+
+    path('<filename>.html', views.html),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

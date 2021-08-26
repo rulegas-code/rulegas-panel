@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% load static %}
+
 <head>
 
     {% include 'head_part.html' %}
@@ -35,7 +37,7 @@
 
                 <div class="row">
 
-                    <div class="col-6 mx-auto">
+                    <div class="col-12 mx-auto">
 
                         <!-- Default Card Example -->
                         <div class="card mb-4">
@@ -169,7 +171,7 @@
 {% include 'modals_and_scripts_part.html' %}
 
 <!-- Page level custom scripts -->
-<script src="/static/js/list_awards.js"></script>
+<script src="{% static 'js/list_awards.js' %}"></script>
 
 </body>
 

@@ -1,4 +1,4 @@
-var awardsCont = {
+let awardsCont = {
     editForm: $('#form-edit-award'),
     editModal: $('#editModal'),
     apiAwardUrl: $('#apiAwardUrl').val(),
@@ -14,7 +14,6 @@ var awardsCont = {
     showEditModal: (event) => {
         let button = $(event.relatedTarget)
         let award = button.data('award-id')
-        let modal = ('#editModal')
 
         $.get(`${awardsCont.apiAwardUrl}${award}`)
             .done((data) => {

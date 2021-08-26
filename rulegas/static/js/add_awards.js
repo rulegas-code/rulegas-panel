@@ -1,28 +1,23 @@
-var awardsCont = {
+let awardsCont = {
     totalBag: 0,
     price: 0,
     bag: 0,
     bagElement: $('#bag'),
     awardsForm: $('#form-awards'),
-    formUrl: $('#form-url').val(),
     companySelect: $('#companyId'),
-    awardCount: parseInt($('#awardCount').val()),
-    numberFormatter: new Intl.NumberFormat('es-MX', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    }),
+    awardCount: rulegasCommons.parseInt('#awardCount'),
 
     init: () => {
         let totalBag = $('#totalbag')
-        totalBag.change((event) => {
-            awardsCont.totalBag = parseFloat(totalBag.val())
+        totalBag.change(() => {
+            awardsCont.totalBag = rulegasCommons.parseFloat(totalBag)
             awardsCont.updateBag()
         })
         totalBag.change()
 
         let price = $('#price')
-        price.change((event) => {
-            awardsCont.price = parseFloat(price.val())
+        price.change(() => {
+            awardsCont.price = rulegasCommons.parseFloat(price)
             awardsCont.updateBag()
         })
         price.change()
@@ -40,13 +35,13 @@ var awardsCont = {
 
     updateBag: () => {
         awardsCont.bag = awardsCont.totalBag * awardsCont.price
-        awardsCont.bagElement.val(awardsCont.numberFormatter.format(awardsCont.bag))
+        awardsCont.bagElement.val(rulegasCommons.numberFormatter.format(awardsCont.bag))
     },
 
     updateAwardInfo: (event) => {
         let award = $(event.target).data('award')
 
-        let awardPercent = parseFloat($(`#awardPercent${award}`).val())
+        let awardPercent = rulegasCommons.parseFloat(`#awardPercent${award}`)
 
         let percentage = awardPercent / 100.0
 
@@ -55,14 +50,14 @@ var awardsCont = {
 
         let check = $(`#awardTypeLts${award}`).prop('checked')
 
-        let ltsPerAward = parseInt($(`#ltsPerAward${award}`).val())
-        let cashPerAward = parseInt($(`#cashPerAward${award}`).val())
+        let ltsPerAward = rulegasCommons.parseInt(`#ltsPerAward${award}`)
+        let cashPerAward = rulegasCommons.parseInt(`#cashPerAward${award}`)
 
         let awardTotal = Math.floor(check ? awardLtsTotal / ltsPerAward : awardCashTotal / cashPerAward)
 
         $(`#awardLtsTotal${award}`).val(awardLtsTotal)
         $(`#awardTotal${award}`).val(awardTotal)
-        $(`#awardCashTotal${award}`).val(awardsCont.numberFormatter.format(awardCashTotal))
+        $(`#awardCashTotal${award}`).val(rulegasCommons.numberFormatter.format(awardCashTotal))
         $(`#awardPerDay${award}`).val(Math.floor(awardTotal / 30))
     },
 
@@ -93,37 +88,16 @@ var awardsCont = {
         for (let i = 0; i < awardsCont.awardCount; i++) {
             data.awards.push({
                 name: $(`#awardName${i}`).val(),
-                total: $(`#awardTotal${i}`).val(),
-                perDay: $(`#awardPerDay${i}`).val()
+                total: rulegasCommons.parseInt(`#awardTotal${i}`),
+                perDay: rulegasCommons.parseInt(`#awardPerDay${i}`)
             })
         }
 
         console.log(data)
 
-        $.post({
-            url: awardsCont.awardsForm.prop('action'),
-            headers: {'X-CSRFToken': $('#form-awards [name="csrfmiddlewaretoken"]').val()},
-            data: JSON.stringify(data),
-            processData: false,
-            contentType: 'application/json',
-            dataType: 'json'
-        })
-            .done(() => {
-                awardsCont.showAlert('success', 'Se guardaron los premios correctamente.')
-            })
-            .fail(() => {
-                awardsCont.showAlert('danger', 'Ocurrió un error al guardar los premios.')
-            })
-    },
-
-    showAlert: (type, message) => {
-        $('#alert-submit').html(`
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>`)
+        rulegasCommons.sendJsonRequest('post', awardsCont.awardsForm.prop('action'), data)
+            .done(() => rulegasCommons.showSuccessAlert('#alert-submit', 'Se guardaron los premios correctamente.'))
+            .fail(() => rulegasCommons.showDangerAlert('#alert-submit', 'Ocurrió un error al guardar los premios.'))
     }
 }
 

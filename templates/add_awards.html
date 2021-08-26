@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% load static %}
+
 <head>
 
     {% include 'head_part.html' %}
@@ -44,12 +46,6 @@
                             </div>
                             <div class="card-body">
 
-                                {% if award %}
-                                    <div class="alert alert-success" role="alert">
-                                        Se registró el premio {{ award }}
-                                    </div>
-                                {% endif %}
-
                                 <form action="{% url 'api.awards.save' %}" method="post" id="form-awards">
 
                                     {% csrf_token %}
@@ -58,7 +54,7 @@
                                     <div class="form-group row">
                                         <div class="input-group col-12 mb-3">
                                             <div class="input-group-prepend">
-                                                <label class="input-group-text" for="company-id">Compañía</label>
+                                                <label class="input-group-text" for="companyId">Compañía</label>
                                             </div>
                                             <select class="custom-select" id="companyId">
                                                 <option selected>Elige...</option>
@@ -111,8 +107,6 @@
 
                                     {% for i in awardRange %}
                                         <div class="card">
-                                            <h5 class="card-header">Premio</h5>
-
                                             <div class="card-body">
 
                                                 <!-- Award percentage -->
@@ -266,7 +260,8 @@
 {% include 'modals_and_scripts_part.html' %}
 
 <!-- Page level custom scripts -->
-<script src="/static/js/add_awards.js"></script>
+<script src="{% static 'js/commons.js' %}"></script>
+<script src="{% static 'js/add_awards.js' %}"></script>
 
 </body>
 

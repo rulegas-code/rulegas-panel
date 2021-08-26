@@ -13,7 +13,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {% if filename == 'index' %}active{% endif %}">
+    <li class="nav-item {% if '/' == request.path %}active{% endif %}">
         <a class="nav-link" href="{% url 'index' %}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -23,35 +23,30 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Users -->
-    <li class="nav-item {% if 'users' in request.path %}active{% endif %}">
+    <li class="nav-item {% if '/users' in request.path %}active{% endif %}">
         <a class="nav-link " href="{% url 'users' %}">
             <i class="fas fa-fw fa-users"></i>
             <span>Users</span></a>
     </li>
 
     <!-- Nav Item - Fuel Stations -->
-    <li class="nav-item {% if 'fuelstations' in request.path %}active{% endif %}">
+    <li class="nav-item {% if '/fuelstations' in request.path %}active{% endif %}">
         <a class="nav-link " href="{% url 'fuelstations' %}">
             <i class="fas fa-fw fa-gas-pump"></i>
             <span>Estaciones</span></a>
     </li>
 
     <!-- Nav Item - Prizes -->
-    <li class="nav-item {% if 'awards' in request.path %}active{% endif %}">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseAwards"
-           aria-expanded="{% if 'awards' in request.path %}true{% else %}false{% endif %}"
-           aria-controls="collapseAwards">
+    <li class="nav-item {% if '/awards' in request.path %}active{% endif %}">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseAwards" aria-expanded="{% if 'awards' in request.path %}true{% else %}false{% endif %}" aria-controls="collapseAwards">
             <i class="fas fa-fw fa-folder"></i>
             <span>Premios</span>
         </a>
-        <div id="collapseAwards" class="collapse {% if 'awards' in request.path %}show{% endif %}"
-             aria-labelledby="headingAwards" data-parent="#accordionSidebar"
-             style="">
+        <div id="collapseAwards" class="collapse {% if 'awards' in request.path %}show{% endif %}" aria-labelledby="headingAwards" data-parent="#accordionSidebar" style="">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {% if 'awards/add' in request.path %}active{% endif %}" href="{% url 'awards.add' %}"><span
-                        class="fas fa-fw fa-plus"> </span>Agregar</a>
-                <a class="collapse-item {% if 'awards/list' in request.path %}active{% endif %}" href="{% url 'awards.list' %}"><span
-                        class="fas fa-fw fa-coins"> </span>Premios</a>
+                <a class="collapse-item {% if '/awards/add' == request.path %}active{% endif %}" href="{% url 'awards.add' %}"><span class="fas fa-fw fa-plus"> </span>Agregar</a>
+                <a class="collapse-item {% if '/awards/add_ind' == request.path %}active{% endif %}" href="{% url 'awards.add_ind' %}"><span class="fas fa-fw fa-plus"> </span>Agregar individual</a>
+                <a class="collapse-item {% if '/awards/list' == request.path %}active{% endif %}" href="{% url 'awards.list' %}"><span class="fas fa-fw fa-coins"> </span>Premios</a>
             </div>
         </div>
     </li>

@@ -1,6 +1,3 @@
-from django.db import models
-
-
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -8,8 +5,7 @@ from django.db import models
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-
-# Create your models here.
+from django.db import models
 
 
 class FuelCompany(models.Model):
@@ -38,6 +34,7 @@ class FuelCompanyAward(models.Model):
     awards_per_day = models.IntegerField()
     probability = models.FloatField()
     roulette_position = models.IntegerField()
+    must_claim = models.IntegerField(blank=True, null=True)
     is_active = models.IntegerField(blank=True, null=True)
     created_by = models.CharField(max_length=36, blank=True, null=True)
     updated_by = models.CharField(max_length=36, blank=True, null=True)
@@ -50,13 +47,12 @@ class FuelCompanyAward(models.Model):
         db_table = 'fuel_company_award'
 
 
-class FuelStation(models.Model):
+class FuelCompanyAwardScheme(models.Model):
     id = models.CharField(primary_key=True, max_length=36)
     fuel_company = models.ForeignKey(FuelCompany, models.DO_NOTHING)
-    name = models.CharField(max_length=50)
-    latitude = models.CharField(max_length=50)
-    longitude = models.CharField(max_length=50)
-    address = models.CharField(max_length=500)
+    scheme_number = models.IntegerField()
+    winning_multiple = models.IntegerField()
+    special_config = models.TextField()
     is_active = models.IntegerField(blank=True, null=True)
     created_by = models.CharField(max_length=36, blank=True, null=True)
     updated_by = models.CharField(max_length=36, blank=True, null=True)
@@ -64,8 +60,24 @@ class FuelStation(models.Model):
     created = models.DateTimeField(blank=True, null=True)
     updated = models.DateTimeField(blank=True, null=True)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    class Meta:
+        managed = False
+        db_table = 'fuel_company_award_scheme'
+
+
+class FuelStation(models.Model):
+    id = models.CharField(primary_key=True, max_length=36)
+    fuel_company = models.ForeignKey(FuelCompany, models.DO_NOTHING)
+    name = models.CharField(max_length=50)
+    latitude = models.CharField(max_length=50)
+    longitude = models.CharField(max_length=50)
+    address = models.CharField(max_length=500, blank=True, null=True)
+    is_active = models.IntegerField(blank=True, null=True)
+    created_by = models.CharField(max_length=36, blank=True, null=True)
+    updated_by = models.CharField(max_length=36, blank=True, null=True)
+    deleted_by = models.CharField(max_length=36, blank=True, null=True)
+    created = models.DateTimeField(blank=True, null=True)
+    updated = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -127,10 +139,6 @@ class UserTickets(models.Model):
     deleted_by = models.CharField(max_length=36, blank=True, null=True)
     created = models.DateTimeField(blank=True, null=True)
     updated = models.DateTimeField(blank=True, null=True)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.amount = 0
 
     class Meta:
         managed = False

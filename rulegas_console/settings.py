@@ -81,9 +81,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rulegas_develop',
-        'USER': 'rulegas-dev',
-        'PASSWORD': 'e6vqq9Hy3pcVzQwW',
-        'HOST': 'rulegas-rds.cb17jzeqxxh8.us-east-2.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'USER': 'root',
+        'PASSWORD': 'N0m3l0s3#123',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     },
     'test': {
