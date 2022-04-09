@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'rulegas_console.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rulegas_develop',
-        'USER': 'rulegas-dev',
-        'PASSWORD': 'e6vqq9Hy3pcVzQwW',
-        'HOST': 'rulegas-rds.cb17jzeqxxh8.us-east-2.rds.amazonaws.com', # Or an IP Address that your DB is hosted on
+        'NAME': 'rulegas_production',
+        'USER': 'rulegas-prod',
+        'PASSWORD': '549FHYQZafn9C55F',
+        'HOST': 'rulegas-rds.cb17jzeqxxh8.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
     },
     'test': {
