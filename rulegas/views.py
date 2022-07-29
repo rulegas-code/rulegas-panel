@@ -74,8 +74,10 @@ def edit_awards(request):
     award.is_active = 1 if request.POST['awardName'] else 0
 
     award.save()
-
-    return redirect('AwardsList')
+    
+    awards = FuelCompanyAward.objects.all()
+    context = {'awards': awards}
+    return render(request,'list_awards.html', context=context)
 
 
 @api_view(['GET'])
